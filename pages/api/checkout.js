@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (!recipientEmail || !message) return res.status(400).json({ error: 'Missing fields' });
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ['card', 'mobilepay'],
       mode: 'payment',
       line_items: [{ price_data: { currency: 'eur', unit_amount: 100, product_data: { name: 'Anonyymi viesti' } }, quantity: 1 }],
       metadata: { recipientEmail, message: message.substring(0,500), messageExtra: message.length>500?message.substring(500,1500):'', subject: subject||'Sinulle on anonyymi viesti' },
