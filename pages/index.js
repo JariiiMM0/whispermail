@@ -31,7 +31,7 @@ export default function Home() {
     </Head>
     <div className='root'>
       <header>
-        <div className='logo'>WhisperMail</div>
+        <div className='logo'>WhisperMail <span className='flag'>🇫🇮</span></div>
         <div className='tag'>laheta viesti anonyymisti</div>
       </header>
       <main>
@@ -53,7 +53,8 @@ export default function Home() {
     <style jsx>{`
       .root{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:0 1.5rem 4rem}
       header{width:100%;max-width:640px;text-align:center;padding:3rem 0 1rem;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:3rem}
-      .logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;letter-spacing:.2em;color:#c9a96e}
+      .logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;letter-spacing:.2em;color:#4a90d9}
+      .flag{font-size:1.2rem;vertical-align:middle;margin-left:.3em}
       .tag{font-size:.6rem;letter-spacing:.3em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-top:.4rem}
       main{width:100%;max-width:640px;display:flex;flex-direction:column;gap:1.5rem}
       h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:#f0e8dc;text-align:center}
@@ -63,14 +64,14 @@ export default function Home() {
       .f{display:flex;flex-direction:column;gap:.4rem}
       label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3)}
       input,textarea{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:2px;color:#e8e0d4;font-family:'DM Mono',monospace;font-size:.82rem;padding:.8rem 1rem;outline:none;resize:none;width:100%;transition:border-color .2s}
-      input:focus,textarea:focus{border-color:rgba(201,169,110,.4)}
+      input:focus,textarea:focus{border-color:rgba(74,144,217,.4)}
       input::placeholder,textarea::placeholder{color:rgba(255,255,255,.15)}
       .err{background:rgba(220,60,60,.1);border:1px solid rgba(220,60,60,.3);border-radius:2px;padding:.7rem 1rem;font-size:.72rem;color:#ff9090}
-      .btn{width:100%;background:linear-gradient(135deg,#c9a96e,#a07840);border:none;border-radius:2px;color:#080a0f;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;padding:1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:opacity .2s}
+      .btn{width:100%;background:linear-gradient(135deg,#4a90d9,#2563b0);border:none;border-radius:2px;color:#ffffff;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;padding:1rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:opacity .2s}
       .btn:hover{opacity:.88}
       .dis{opacity:.5;cursor:not-allowed;justify-content:center}
       .pr{background:rgba(0,0,0,.2);padding:.2rem .6rem;border-radius:2px}
-      .spin{width:16px;height:16px;border:2px solid rgba(0,0,0,.2);border-top-color:#080a0f;border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+      .spin{width:16px;height:16px;border:2px solid rgba(255,255,255,.2);border-top-color:#ffffff;border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
       @keyframes sp{to{transform:rotate(360deg)}}
       .gu{text-align:center;font-size:.6rem;letter-spacing:.06em;color:rgba(255,255,255,.2)}
     `}</style>
