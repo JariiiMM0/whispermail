@@ -1,16 +1,51 @@
 import { useState } from 'react';
 import Head from 'next/head';
 
+const translations = {
+  fi: {
+    tag: 'laheta viesti anonyymisti',
+    h1: 'Onko sinulla jotain sanottavaa?',
+    p: 'Laheta viesti kenelle tahansa — he eivat tiedaa kuka sen lahetti.',
+    label1: 'Vastaanottajan sahkoposti',
+    label2: 'Aihe (valinnainen)',
+    label3: 'Viesti',
+    placeholder2: 'Sinulle on viesti...',
+    placeholder3: 'Kirjoita viestisi...',
+    err1: 'Tayta sahkoposti ja viesti.',
+    err2: 'Tarkista sahkoposti.',
+    err3: 'Jokin meni pieleen.',
+    btn: 'Laheta anonyymisti',
+    gu: 'Nimesi ei koskaan paljastu · Stripe · Toimitetaan heti',
+  },
+  en: {
+    tag: 'send a message anonymously',
+    h1: 'Got something to say?',
+    p: 'Send a message to anyone — they will never know who sent it.',
+    label1: 'Recipient email',
+    label2: 'Subject (optional)',
+    label3: 'Message',
+    placeholder2: 'You have a message...',
+    placeholder3: 'Write your message...',
+    err1: 'Please fill in email and message.',
+    err2: 'Please check the email address.',
+    err3: 'Something went wrong.',
+    btn: 'Send anonymously',
+    gu: 'Your identity is never revealed · Stripe · Delivered instantly',
+  },
+};
+
 export default function Home() {
   const [email, setEmail] = useState('');
   const [msg, setMsg] = useState('');
   const [subj, setSubj] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [lang, setLang] = useState('fi');
+  const t = translations[lang];
 
   const send = async () => {
-    if (!email || !msg) { setError('Tayta sahkoposti ja viesti.'); return; }
-    if (!/\S+@\S+\.\S+/.test(email)) { setError('Tarkista sahkoposti.'); return; }
+    if (!email || !msg) { setError(t.err1); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { setError(t.err2); return; }
     setError(''); setLoading(true);
     try {
       const res = await fetch('/api/checkout', {
@@ -19,8 +54,8 @@ export default function Home() {
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
-      else setError('Jokin meni pieleen.');
-    } catch(e) { setError('Jokin meni pieleen.'); }
+      else setError(t.err3);
+    } catch(e) { setError(t.err3); }
     setLoading(false);
   };
 
@@ -32,20 +67,24 @@ export default function Home() {
     <div className='root'>
       <header>
         <div className='logo'>WhisperMail <span className='flag'>🇫🇮</span></div>
-        <div className='tag'>laheta viesti anonyymisti</div>
+        <div className='tag'>{t.tag}</div>
+        <div className='langswitch'>
+          <button className={lang==='fi'?'lbtn active':'lbtn'} onClick={()=>setLang('fi')}>FI</button>
+          <button className={lang==='en'?'lbtn active':'lbtn'} onClick={()=>setLang('en')}>EN</button>
+        </div>
       </header>
       <main>
-        <h1>Onko sinulla jotain sanottavaa?</h1>
-        <p>Laheta viesti kenelle tahansa — he eivat tiedaa kuka sen lahetti.</p>
+        <h1>{t.h1}</h1>
+        <p>{t.p}</p>
         <div className='card'><div className='inner'>
-          <div className='f'><label>Vastaanottajan sahkoposti</label><input type='email' placeholder='joku@example.com' value={email} onChange={e=>setEmail(e.target.value)} /></div>
-          <div className='f'><label>Aihe (valinnainen)</label><input type='text' placeholder='Sinulle on viesti...' value={subj} onChange={e=>setSubj(e.target.value)} /></div>
-          <div className='f'><label>Viesti</label><textarea rows={6} maxLength={2000} placeholder='Kirjoita viestisi...' value={msg} onChange={e=>setMsg(e.target.value)} /></div>
+          <div className='f'><label>{t.label1}</label><input type='email' placeholder='joku@example.com' value={email} onChange={e=>setEmail(e.target.value)} /></div>
+          <div className='f'><label>{t.label2}</label><input type='text' placeholder={t.placeholder2} value={subj} onChange={e=>setSubj(e.target.value)} /></div>
+          <div className='f'><label>{t.label3}</label><textarea rows={6} maxLength={2000} placeholder={t.placeholder3} value={msg} onChange={e=>setMsg(e.target.value)} /></div>
           {error&&<div className='err'>{error}</div>}
           <button className={loading?'btn dis':'btn'} onClick={send} disabled={loading}>
-            {loading?<span className='spin'/>:<><span>Laheta anonyymisti</span><span className='pr'>1 euro</span></>}
+            {loading?<span className='spin'/>:<><span>{t.btn}</span><span className='pr'>1 euro</span></>}
           </button>
-          <div className='gu'>Nimesi ei koskaan paljastu &middot; Stripe &middot; Toimitetaan heti</div>
+          <div className='gu'>{t.gu}</div>
         </div></div>
       </main>
     </div>
@@ -56,6 +95,9 @@ export default function Home() {
       .logo{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;letter-spacing:.2em;color:#4a90d9}
       .flag{font-size:1.2rem;vertical-align:middle;margin-left:.3em}
       .tag{font-size:.6rem;letter-spacing:.3em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-top:.4rem}
+      .langswitch{display:flex;justify-content:center;gap:.5rem;margin-top:1rem}
+      .lbtn{background:none;border:1px solid rgba(255,255,255,.15);border-radius:2px;color:rgba(255,255,255,.3);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;padding:.3rem .7rem;cursor:pointer;transition:all .2s}
+      .lbtn.active{border-color:#4a90d9;color:#4a90d9}
       main{width:100%;max-width:640px;display:flex;flex-direction:column;gap:1.5rem}
       h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;color:#f0e8dc;text-align:center}
       p{font-size:.78rem;line-height:1.8;color:rgba(255,255,255,.4);text-align:center}
